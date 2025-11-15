@@ -1,28 +1,18 @@
+# order/forms.py
 from django import forms
 from .models import Order
 
 class OrderCreateForm(forms.ModelForm):
-	DIVISION_CHOICES = (
-		('Dhaka', 'Dhaka'),
-		('Chattagram', 'Chattagram'),
-		('Rajshahi', 'Rajshahi '),
-	)
-
-	DISCRICT_CHOICES = (
-		('Dhaka', 'Dhaka'), 
-		('Gazipur', 'Gazipur'),
-		('Narayanganj', 'Narayanganj'),
-	)
-
-	PAYMENT_METHOD_CHOICES = (
-		('Rocket', 'Rocket'),
-		('Bkash','Bkash')
-	)
-
-	division = forms.ChoiceField(choices=DIVISION_CHOICES)
-	district =  forms.ChoiceField(choices=DISCRICT_CHOICES)
-	payment_method = forms.ChoiceField(choices=PAYMENT_METHOD_CHOICES, widget=forms.RadioSelect())
+	# ✅ دیگر نیازی به تعریف فیلدهای اضافی نیست
 
 	class Meta:
 		model = Order
-		fields = ['name', 'email', 'phone', 'address', 'division', 'district', 'zip_code', 'payment_method', 'account_no', 'transaction_id']
+		# ✅ تغییر: فقط فیلدهای مورد نیاز را در فرم نگه می‌داریم
+		fields = ['name', 'email', 'phone']
+
+		# ✅ برای فارسی‌سازی لیبل‌ها (اختیاری اما پیشنهادی)
+		labels = {
+            'name': 'نام و نام خانوادگی',
+            'email': 'آدرس ایمیل',
+            'phone': 'شماره تماس',
+        }

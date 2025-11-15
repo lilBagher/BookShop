@@ -1,20 +1,25 @@
 from django.db import models
 from store.models import Book
-from django.contrib.auth.models import User
-
-
+from django.contrib.auth import get_user_model
 class Order(models.Model):
-	customer = models.ForeignKey(User, on_delete = models.CASCADE)
+	customer = models.ForeignKey(get_user_model(), on_delete = models.CASCADE)
 	name = models.CharField(max_length=30)
 	email = models.EmailField()
 	phone = models.CharField(max_length=16)
-	address = models.CharField(max_length=150)
-	division = models.CharField(max_length=20)
-	district = models.CharField(max_length=30)
-	zip_code = models.CharField(max_length=30)
-	payment_method = models.CharField(max_length = 20)
-	account_no = models.CharField(max_length = 20)
-	transaction_id = models.IntegerField()
+	
+	# ✅ تغییر: این فیلدها اکنون اختیاری هستند
+	address = models.CharField(max_length=150, blank=True, null=True)
+	division = models.CharField(max_length=20, blank=True, null=True)
+	district = models.CharField(max_length=30, blank=True, null=True)
+	zip_code = models.CharField(max_length=30, blank=True, null=True)
+	
+	# ✅ تغییر: این فیلدها هم اختیاری شدند
+	payment_method = models.CharField(max_length = 20, blank=True, null=True)
+	account_no = models.CharField(max_length = 20, blank=True, null=True)
+
+	# ✅ تغییر مهم: این فیلد را به CharField تغییر دادیم تا کد رهگیری متنی زرین‌پال در آن ذخیره شود
+	transaction_id = models.CharField(max_length=100, blank=True, null=True) 
+	
 	payable = models.IntegerField()
 	totalbook = models.IntegerField()
 	created = models.DateTimeField(auto_now_add=True)
